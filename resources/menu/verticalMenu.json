@@ -1,0 +1,52 @@
+{
+  "menu": [
+    {
+      "menuHeader": "Dashboard"
+    },
+    {
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons mdi mdi-home-outline",
+      "slug": "Dashboard",
+      "url": "/"
+    },
+    {
+      "menuHeader": "Data & Laporan"
+    },
+    {
+      "url": "table/arsip",
+      "icon": "menu-icon tf-icons mdi mdi-table",
+      "name": "Data Arsip",
+      "slug": "tables-arsip"
+    },
+    {
+      "url": "tables/basic",
+      "icon": "menu-icon tf-icons mdi mdi-file-document-multiple-outline",
+      "name": "Laporan Bulanan",
+      "slug": "Laporan"
+    },
+    {
+      "menuHeader": "Account Settings"
+    },
+    {
+      "name": "Account Settings",
+      "icon": "menu-icon tf-icons mdi mdi-account-outline",
+      "slug": "pages-account-settings",
+      "submenu": [
+        {
+          "url": "pages/account-settings-account",
+          "name": "Account",
+          "slug": "pages-account-settings-account"
+        }
+      ]
+    },
+    {
+      "menuHeader": "Logout"
+    },
+    {
+      "url": "logout",
+      "icon": "menu-icon tf-icons mdi mdi-lock-open-outline",
+      "name": "Logout",
+      "slug": "logout"
+    }
+  ]
+}

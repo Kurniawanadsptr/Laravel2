@@ -6,7 +6,7 @@ use App\Http\Controllers\pages\AccountSettingsAccount;
 use App\Http\Controllers\authentications\RegisterBasic;
 use App\Http\Controllers\authentications\ForgotPasswordBasic;
 use App\Http\Controllers\authentications\Login;
-use App\Http\Controllers\tables\Arsip as TablesArsip;
+use App\Http\Controllers\data\ControllerArsip;
 use Illuminate\Support\Facades\Auth;
 
 // Main Page Route
@@ -27,4 +27,18 @@ Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 
 // tables
-Route::get('/table/arsip', [TablesArsip::class, 'index'])->name('tables-arsip');
+Route::get('/table/arsip', [ControllerArsip::class, 'index'])->name('tables-arsip');
+
+//data
+Route::post('/arsip/store', [ControllerArsip::class, 'store'])->name('arsip.store');
+Route::get('/arsip/{tanggal}/{filename}', function ($tanggal, $filename){
+  $path = public_path("storage/uploads/arsip/{$tanggal}/{$filename}");
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
+
+Route::delete('/arsip/delete/{id_arsip}', [ControllerArsip::class, 'delete'])->name('hapus-arsip');

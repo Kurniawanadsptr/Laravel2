@@ -18,8 +18,6 @@
 
     <ul class="menu-inner py-1">
         @foreach ($menuData[0]->menu as $menu)
-            {{-- adding active and open class if child is active --}}
-
             {{-- menu headers --}}
             @if (isset($menu->menuHeader))
                 <li class="menu-header fw-medium mt-4">
@@ -67,7 +65,7 @@
                     @else
                         <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}"
                             class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}"
-                            @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
+                            @if (isset($menu->target) && !empty($menu->target)) target="_blank" @endif>
                             @isset($menu->icon)
                                 <i class="{{ $menu->icon }}"></i>
                             @endisset

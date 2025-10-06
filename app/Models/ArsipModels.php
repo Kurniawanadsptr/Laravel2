@@ -13,17 +13,14 @@ class ArsipModels extends Model
     'id_arsip',
     'file',
     'name_file',
+    'no_surat',
+    'perihal',
     'file_eksis',
     'size_file',
     'date_upload',
-    'users',
+    'users_id',
   ];
-
-  public function getSizeHumanAttribute()
-  {
-    if ($this->size >= 1048576) {
-      return round($this->size / 1048576, 2) . ' MB';
-    }
-    return round($this->size / 1024, 2) . ' KB';
+  public function user(){
+    return $this->belongsTo(User::class, 'users_id', 'id_user');
   }
 }

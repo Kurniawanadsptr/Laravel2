@@ -30,7 +30,6 @@ class Login extends Controller
     ])->onlyInput('username');
   }
 
-
   public function logout(Request $request)
   {
     Auth::logout();

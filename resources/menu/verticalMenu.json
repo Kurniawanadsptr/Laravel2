@@ -36,6 +36,11 @@
           "url": "pages/account-settings-account",
           "name": "Account",
           "slug": "pages-account-settings-account"
+        },
+        {
+          "url": "pages/account",
+          "name": "List Account",
+          "slug": "list-account"
         }
       ]
     },

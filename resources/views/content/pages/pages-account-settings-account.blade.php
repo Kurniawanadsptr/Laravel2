@@ -22,8 +22,13 @@
                 <!-- Account -->
                 <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
-                        <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt="user-avatar"
+                        @if(Auth::user()->avatar === "")
+                          <img src="{{ asset('assets/img/avatars/images.png') }}" alt="user-avatar"
                             class="d-block w-px-120 h-px-120 rounded" id="uploadedAvatar" />
+                        @else
+                         <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt="user-avatar"
+                            class="d-block w-px-120 h-px-120 rounded" id="uploadedAvatar" />
+                        @endif
                         <div class="button-wrapper">
                             <label for="upload" class="btn btn-primary me-2 mb-3" tabindex="0">
                                 <span class="d-none d-sm-block">Upload new photo</span>
@@ -63,7 +68,7 @@
                                 <div class="input-group input-group-merge">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                            placeholder="{{ Auth::user()->telephone }}" />
+                                            value="{{ Auth::user()->telephone }}" />
                                         <label for="phoneNumber">Phone Number</label>
                                     </div>
                                     <span class="input-group-text">(+62)</span>

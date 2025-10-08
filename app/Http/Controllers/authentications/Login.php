@@ -19,15 +19,28 @@ class Login extends Controller
       'username' => ['required', 'string'],
       'password' => ['required', 'string'],
     ]);
-
-    if (Auth::attempt($credentials)) {
+    if (Auth::attempt([
+      'username' => $credentials['username'],
+      'password' => $credentials['password'],
+    ])) {
       $request->session()->regenerate();
+      $user = Auth::user();
+      if ($user->role !== 'General Admin') {
+        $inputRole = $request->input('role');
+        if ($user->role !== $inputRole) {
+          Auth::logout();
+          return back()->withErrors([
+            'error' => 'Login gagal. Periksa kembali username dan password atau role.',
+          ])->onlyInput('error');
+        }
+      }
+
       return redirect()->intended('/');
     }
 
     return back()->withErrors([
-      'username' => 'Login gagal. Periksa kembali username dan password.',
-    ])->onlyInput('username');
+      'error' => 'Login gagal. Periksa kembali username dan password atau role.',
+    ])->onlyInput('error');
   }
 
   public function logout(Request $request)

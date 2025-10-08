@@ -45,8 +45,13 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <div class="avatar avatar-online">
-                    <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt
-                        class="w-px-30 h-auto rounded-circle">
+                    @if (Auth::user()->avatar === '')
+                        <img src="{{ asset('assets/img/avatars/images.png') }}" alt
+                            class="w-px-30 h-auto rounded-circle">
+                    @else
+                        <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt
+                            class="w-px-30 h-auto rounded-circle">
+                    @endif
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
@@ -55,8 +60,13 @@
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0 me-2 pe-1">
                                 <div class="avatar avatar-online">
-                                    <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt
-                                        class="w-px-30 h-auto rounded-circle">
+                                    @if (Auth::user()->avatar === '')
+                                        <img src="{{ asset('assets/img/avatars/images.png') }}" alt
+                                            class="w-px-30 h-auto rounded-circle">
+                                    @else
+                                        <img src="{{ asset('assets/img/avatars/' . Auth::user()->avatar) }}" alt
+                                            class="w-px-30 h-auto rounded-circle">
+                                    @endif
                                 </div>
                             </div>
                             <div class="flex-grow-1">

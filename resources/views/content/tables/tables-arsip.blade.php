@@ -8,10 +8,12 @@
     <hr class="my-5">
 
     <!-- Bordered Table -->
-    <button class="btn rounded-2 mb-3 w-10 text-white" style="background:#16b1ff" data-bs-toggle="modal"
+    @if(Auth::user()->role !== 'General Admin')
+    <button class="btn rounded-2 mb-3 w-10 text-white colorBackground" data-bs-toggle="modal"
         data-bs-target="#modalTambahData">
         Tambah Data
     </button>
+    @endif
 
     <div class="card">
         <h5 class="card-header">Data Arsip</h5>
@@ -29,7 +31,9 @@
                             <th>Ukuran File</th>
                             <th>Tgl Upload</th>
                             <th>Users</th>
+                            @if(Auth::user()->role !== 'General Admin')
                             <th>Actions</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -46,13 +50,14 @@
                                 <td>{{ $arsip->perihal }}</td>
                                 <td>
                                     <span
-                                        style="background-color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}; width: 30px; color:white;">
+                                        style="color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}; width: 30px;">
                                         {{ $arsip->file_eksis }}
                                     </span>
                                 </td>
                                 <td>{{ $arsip->size_file }}</td>
                                 <td>{{ $arsip->date_upload }}</td>
                                 <td>{{ $arsip->user->role }}</td>
+                                @if(Auth::user()->role !== 'General Admin')
                                 <td>
                                     <button class="btn btn-info rounded-2 w-25" id="editArsip" data-id="{{ $arsip->id_arsip }}">Edit</button>
                                     <form action="{{ route('hapus-arsip', $arsip->id_arsip) }}" method="POST"
@@ -65,6 +70,7 @@
                                         </button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
@@ -84,7 +90,9 @@
                             <th>Ukuran File</th>
                             <th>Tgl Upload</th>
                             <th>Users</th>
+                            @if(Auth::user()->role !== 'General Admin')
                             <th>Actions</th>
+                            @endif
                         </tr>
                     </tfoot>
                 </table>

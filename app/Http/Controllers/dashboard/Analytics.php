@@ -11,6 +11,9 @@ class Analytics extends Controller
   public function index()
   {
     $user = Auth::user();
-    return view('content.dashboard.dashboards-index',  ['role' => $user->role]);
+    $labels = ['Januari', 'Februari', 'Maret', 'April'];
+    $data = [100, 200, 150, 300];
+    $role = $user->role;
+    return view('content.dashboard.dashboards-index', compact('role', 'labels', 'data'));
   }
 }

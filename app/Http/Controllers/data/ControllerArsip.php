@@ -66,7 +66,6 @@ class ControllerArsip extends Controller
 
   public function update(Request $request, $id_arsip)
   {
-    $arsip = ArsipModels::findOrFail($id_arsip);
     $request->validate([
       'nama_dokumen_edit' => 'required|string',
       'no_surat_edit' => 'nullable|string',
@@ -74,6 +73,7 @@ class ControllerArsip extends Controller
       'file_eksis_edit' => 'nullable|string',
       'file_edit' => 'nullable|file|mimes:pdf,docx,jpg,png|max:9999999999'
     ]);
+    $arsip = ArsipModels::findOrFail($id_arsip);
     $arsip->name_file = $request->nama_dokumen_edit;
     $arsip->no_surat = $request->no_surat_edit;
     $arsip->perihal = $request->perihal_edit;

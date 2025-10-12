@@ -15,9 +15,9 @@
                 <!-- Login -->
                 <div class="card p-2">
                     <!-- Logo -->
-                    <div class="app-brand justify-content-center mt-5">
+                    <div class="app-brand justify-content-center mt-5 mr-3">
                         <a href="{{ url('/') }}" class="app-brand-link gap-2">
-                            {{-- <span class="app-brand-logo demo">@include('_partials.macros', ['height' => 20, 'withbg' => 'fill: #fff;'])</span> --}}
+                            <span class="app-brand-logo demo"><img src="assets/img/logo.png" width="50px"></span>
                             <span
                                 class="app-brand-text demo text-heading fw-semibold">{{ config('variables.appName') }}</span>
                         </a>
@@ -62,12 +62,13 @@
                                                 <option value="Direktorat 81">Direktorat 81</option>
                                                 <option value="Direktorat 82">Direktorat 82</option>
                                                 <option value="Direktorat 83">Direktorat 83</option>
+                                                <option value="Direktorat 84">Direktorat 84</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3 d-flex justify-content-between">
+                            {{-- <div class="mb-3 d-flex justify-content-between">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="remember-me">
                                     <label class="form-check-label" for="remember-me">
@@ -77,7 +78,7 @@
                                 <a href="{{ url('auth/forgot-password-basic') }}" class="float-end mb-1">
                                     <span>Forgot Password?</span>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <button class="btn colorBackground d-grid w-100" type="submit">Sign in</button>
                             </div>

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\dashboard\Analytics;
@@ -48,7 +47,10 @@ Route::middleware('auth')->group(function () {
     return response()->file($path);
   })->name('arsip.file');
 
-Route::get('/pages/account', [ControllerAccount::class, 'index'])->middleware('auth');
+  Route::get('/pages/account', [ControllerAccount::class, 'index'])->middleware('auth');
+  Route::get('/account/edit/{id_user}', [ControllerAccount::class, 'edit'])->middleware('auth');
+  Route::put('/account/edit/{id_user}', [ControllerAccount::class, 'update'])->middleware('auth');
   Route::post('/account/store', [ControllerAccount::class, 'store'])->name('account-store');
-Route::delete('/arsip/account/delete/{id_user}', [ControllerAccount::class, 'delete'])->name('hapus-account');
+  Route::post('/process/edit', [ControllerAccount::class, 'updatePersonal'])->middleware('auth');
+  Route::delete('/arsip/account/delete/{id_user}', [ControllerAccount::class, 'delete'])->name('hapus-account');
 });

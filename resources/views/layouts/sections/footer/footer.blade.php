@@ -7,7 +7,7 @@
                 <script>
                     document.write(new Date().getFullYear())
                 </script>, made with <span class="text-danger"></i></span> by <span style="color: red;"
-                    class="font-bold">SIKDEPAN</span>
+                    class="font-bold">SIMPATI</span>
             </div>
             {{-- <div class="d-none d-lg-inline-block">
                 <a href="{{ config('variables.licenseUrl') ? config('variables.licenseUrl') : '#' }}"

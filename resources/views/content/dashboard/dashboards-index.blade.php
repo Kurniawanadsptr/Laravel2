@@ -12,6 +12,34 @@
 
 @section('page-script')
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const arsipLabels = @json($labels);
+    const arsipData = @json($data);
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: arsipLabels,
+            datasets: [{
+                label: 'Jumlah Arsip',
+                data: arsipData,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 @endsection
 
 @section('content')
@@ -55,5 +83,6 @@
                 <small>Info 3</small>
             </div>
         </div>
+        <canvas id="myChart" width="400" height="200"></canvas>
     </div>
 @endsection

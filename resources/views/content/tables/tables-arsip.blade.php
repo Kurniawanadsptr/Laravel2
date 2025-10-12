@@ -77,7 +77,6 @@
                                 <td colspan="9" class="text-center">Tidak Ada Data</td>
                             </tr>
                         @endforelse
-
                     </tbody>
                     <tfoot>
                         <tr>

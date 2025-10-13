@@ -12,7 +12,6 @@ class ControllerAccount extends Controller
 {
   public function index()
   {
-    // Pastikan user sudah login dan role-nya General Admin
     if (Auth::check() && Auth::user()->role === 'General Admin') {
       $user = User::where('role', '!=', 'General Admin')->get();
       return view('content.pages.account', compact('user'));

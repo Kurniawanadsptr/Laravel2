@@ -7,19 +7,22 @@
     </h4>
     <hr class="my-5">
 
-    <!-- Bordered Table -->
-    @if(Auth::user()->role !== 'General Admin')
-    <button class="btn rounded-2 mb-3 w-10 text-white colorBackground" data-bs-toggle="modal"
-        data-bs-target="#modalTambahData">
-        Tambah Data
-    </button>
+    @if (Auth::user()->role !== 'General Admin')
+        <button class="btn rounded-2 mb-3 w-10 text-white colorBackground" data-bs-toggle="modal"
+            data-bs-target="#modalTambahData">
+            Tambah Data
+        </button>
     @endif
 
     <div class="card">
-        <h5 class="card-header">Data Arsip</h5>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Data Arsip</h5>
+            <input type="text" id="search" class="form-control w-20" placeholder="Cari dokumen...">
+        </div>
+
         <div class="card-body">
             <div class="table-responsive text-nowrap">
-                <table id="users-table" class="table table-bordered" style="width:100%">
+                <table id="users-table" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -31,56 +34,46 @@
                             <th>Ukuran File</th>
                             <th>Tgl Upload</th>
                             <th>Users</th>
-                            @if(Auth::user()->role !== 'General Admin')
-                            <th>Actions</th>
+                            @if (Auth::user()->role !== 'General Admin')
+                                <th>Actions</th>
                             @endif
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse ($rowArsip as $arsip)
+                    <tbody id="arsip-body">
+                        @foreach ($rowArsip as $arsip)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    <a href="{{ url("arsip/file/$arsip->date_upload/$arsip->file") }}" target="_blank">
-                                        {{ $arsip->file }}
-                                    </a>
-                                </td>
+                                <td><a href="{{ url("arsip/file/$arsip->date_upload/$arsip->file") }}"
+                                        target="_blank">{{ $arsip->file }}</a></td>
                                 <td>{{ $arsip->name_file }}</td>
                                 <td>{{ $arsip->no_surat }}</td>
                                 <td>{{ $arsip->perihal }}</td>
-                                <td>
-                                    <span
-                                        style="color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}; width: 30px;">
-                                        {{ $arsip->file_eksis }}
-                                    </span>
+                                <td><span
+                                        style="color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}">{{ $arsip->file_eksis }}</span>
                                 </td>
                                 <td>{{ $arsip->size_file }}</td>
                                 <td>{{ $arsip->date_upload }}</td>
                                 <td>{{ $arsip->user->role }}</td>
-                                @if(Auth::user()->role !== 'General Admin')
-                                <td>
-                                    <button class="btn btn-info rounded-2 w-25" id="editArsip" data-id="{{ $arsip->id_arsip }}">Edit</button>
-                                    <form action="{{ route('hapus-arsip', $arsip->id_arsip) }}" method="POST"
-                                        style="display: inline-block;"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger rounded-2 text-white">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
+                                @if (Auth::user()->role !== 'General Admin')
+                                    <td>
+                                        <button class="btn btn-info rounded-2 w-25" id="editArsip"
+                                            data-id="{{ $arsip->id_arsip }}">Edit</button>
+                                        <form action="{{ route('hapus-arsip', $arsip->id_arsip) }}" method="POST"
+                                            style="display:inline-block;"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="btn btn-danger rounded-2 text-white">Delete</button>
+                                        </form>
+                                    </td>
                                 @endif
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="9" class="text-center">Tidak Ada Data</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
-                    <tfoot>
+                     <tfoot>
                         <tr>
-                            <th>No</th>
+                           <th>No</th>
                             <th>File</th>
                             <th>Nama Dokumen</th>
                             <th>No. Surat</th>
@@ -89,8 +82,8 @@
                             <th>Ukuran File</th>
                             <th>Tgl Upload</th>
                             <th>Users</th>
-                            @if(Auth::user()->role !== 'General Admin')
-                            <th>Actions</th>
+                            @if (Auth::user()->role !== 'General Admin')
+                                <th>Actions</th>
                             @endif
                         </tr>
                     </tfoot>
@@ -200,5 +193,5 @@
 @endsection
 
 @section('page-script')
-<script src="{{ asset('assets/js/arsip.js') }}"></script>
+    <script src="{{ asset('assets/js/arsip.js') }}"></script>
 @endsection

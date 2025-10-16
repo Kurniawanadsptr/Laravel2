@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/arsip/store', [ControllerArsip::class, 'store'])->name('arsip.store');
   Route::delete('/arsip/delete/{id_arsip}', [ControllerArsip::class, 'delete'])->name('hapus-arsip');
   Route::put('/arsip/edit/{id_arsip}', [ControllerArsip::class, 'update'])->name('arsip.edit');
+  Route::get('/arsip/cetak-pdf', [ControllerArsip::class, 'cetakPdf'])->name('arsip.cetak-pdf');
 
   // File Review
   Route::get('/arsip/file/{tanggal}/{filename}', function ($tanggal, $filename) {

@@ -19,7 +19,7 @@
       "slug": "tables-arsip"
     },
     {
-      "url": "tables/basic",
+      "url": "arsip/cetak-pdf",
       "icon": "menu-icon tf-icons mdi mdi-file-document-multiple-outline",
       "name": "Laporan Bulanan",
       "slug": "Laporan"

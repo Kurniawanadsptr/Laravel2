@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ArsipModels;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PDF;
+use Carbon\Carbon;
 
 class ControllerArsip extends Controller
 {
@@ -160,4 +162,24 @@ class ControllerArsip extends Controller
     return redirect()->route('tables-arsip')
       ->with(['success' => 'Data Berhasil Dihapus']);
   }
+
+public function cetakPdf()
+{
+    $userLogin = Auth::user();
+    $tanggalAkhir = Carbon::now();
+    $tanggalAwal = Carbon::now()->subDays(30);
+
+    $query = ArsipModels::with('user')
+        ->whereBetween('date_upload', [$tanggalAwal->format('Y-m-d'), $tanggalAkhir->format('Y-m-d')]);
+
+    if ($userLogin->role !== 'General Admin') {
+        $query->where('users_id', $userLogin->id_user);
+    }
+
+    $rowArsip = $query->get();
+
+    $pdf = PDF::loadView('pdf.arsip', compact('rowArsip'));
+    return $pdf->stream('arsip-bulanan.pdf');
+}
+
 }

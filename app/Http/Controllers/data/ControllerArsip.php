@@ -34,7 +34,10 @@ class ControllerArsip extends Controller
         $q->where('name_file', 'like', "%{$search}%")
           ->orWhere('file', 'like', "%{$search}%")
           ->orWhere('no_surat', 'like', "%{$search}%")
-          ->orWhere('perihal', 'like', "%{$search}%");
+          ->orWhere('jenis_dokumen', 'like', "%{$search}%")
+          ->orWhere('date_upload', 'like', "%{$search}%")
+          ->orWhere('kategori', 'like', "%{$search}%")
+          ->orWhere('judul', 'like', "%{$search}%");
       });
 
       $rowArsip = $query->get();
@@ -42,18 +45,20 @@ class ControllerArsip extends Controller
       $html = '';
       foreach ($rowArsip as $index => $arsip) {
         $html .= '<tr>';
-        $html .= '<td>' . ($index + 1) . '</td>';
-        $html .= '<td><a href="' . url("arsip/file/$arsip->date_upload/$arsip->file") . '" target="_blank">' . $arsip->file . '</a></td>';
-        $html .= '<td>' . $arsip->name_file . '</td>';
-        $html .= '<td>' . $arsip->no_surat . '</td>';
-        $html .= '<td>' . $arsip->perihal . '</td>';
-        $html .= '<td><span style="color:' . ($arsip->file_eksis == 'Ada' ? 'green' : 'red') . '">' . $arsip->file_eksis . '</span></td>';
-        $html .= '<td>' . $arsip->size_file . '</td>';
-        $html .= '<td>' . $arsip->date_upload . '</td>';
-        $html .= '<td>' . $arsip->user->role . '</td>';
+        $html .= '<td class="extra">' . ($index + 1) . '</td>';
+        $html .= '<td class="extra"><a href="' . url("arsip/file/$arsip->date_upload/$arsip->file") . '" target="_blank">' . $arsip->file . '</a></td>';
+        $html .= '<td class="extra">' . $arsip->name_file . '</td>';
+        $html .= '<td class="extra">' . $arsip->no_surat . '</td>';
+        $html .= '<td class="extra-column">' . $arsip->judul . '</td>';
+        $html .= '<td class="extra-column">' . $arsip->jenis_dokumen . '</td>';
+        $html .= '<td class="extra-column">' . $arsip->kategori . '</td>';
+        $html .= '<td class="extra-column"><span style="color:' . ($arsip->file_eksis == 'Ada' ? 'green' : 'red') . '">' . $arsip->file_eksis . '</span></td>';
+        $html .= '<td class="extra-column">' . $arsip->size_file . '</td>';
+        $html .= '<td class="extra-column">' . $arsip->date_upload . '</td>';
+        $html .= '<td class="extra-column">' . $arsip->user->role . '</td>';
 
         if ($userLogin->role !== 'General Admin') {
-          $html .= '<td>
+          $html .= '<td class="extra-column">
                     <button class="btn btn-info rounded-2 w-25" id="editArsip" data-id="' . $arsip->id_arsip . '">Edit</button>
                     <form action="' . route('hapus-arsip', $arsip->id_arsip) . '" method="POST" style="display:inline-block;" onsubmit="return confirm(\'Apakah Anda yakin ingin menghapus data ini?\')">
                         ' . csrf_field() . method_field('DELETE') . '
@@ -85,19 +90,23 @@ class ControllerArsip extends Controller
     $file = $request->file('file');
     $nama_dokumen = $request->input('nama_dokumen');
     $no_surat = $request->input('no_surat');
-    $perihal = $request->input('perihal');
+    $judul = $request->input('judul');
     $file_eksis = $request->input('file_eksis');
+    $jenis_dokumen = $request->input('jenis_dokumen');
+    $kategori_laporan = $request->input('kategori_laporan');
     $filename = $file->getClientOriginalName();
     $size = $file->getSize();
     $folder = 'public/uploads/arsip/' . now()->format('Y-m-d');
     $path = $file->storeAs($folder, $filename);
-    $date = date('Y-m-d');
+    $date = date('Y-m-d H:i:s');
     ArsipModels::create([
       'file' => $filename,
       'name_file' => $nama_dokumen,
       'no_surat' => $no_surat,
-      'perihal' => $perihal,
+      'judul' => $judul,
       'file_eksis' => $file_eksis,
+      'jenis_dokumen' => $jenis_dokumen,
+      'kategori' => $kategori_laporan,
       'size_file' => $this->bytes_to_size($size),
       'nama_dokumen' => $request->nama_dokumen,
       'date_upload' => $date,
@@ -116,17 +125,15 @@ class ControllerArsip extends Controller
   public function update(Request $request, $id_arsip)
   {
     $request->validate([
-      'nama_dokumen_edit' => 'required|string',
-      'no_surat_edit' => 'nullable|string',
-      'perihal_edit' => 'nullable|string',
-      'file_eksis_edit' => 'nullable|string',
-      'file_edit' => 'nullable|file|mimes:pdf,docx,jpg,png|max:9999999999'
+      'file_edit' => 'file|mimes:pdf,docx,jpg,png|max:9999999999'
     ]);
     $arsip = ArsipModels::findOrFail($id_arsip);
     $arsip->name_file = $request->nama_dokumen_edit;
     $arsip->no_surat = $request->no_surat_edit;
-    $arsip->perihal = $request->perihal_edit;
+    $arsip->judul = $request->judul_edit;
     $arsip->file_eksis = $request->file_eksis_edit;
+    $arsip->jenis_dokumen = $request->jenis_dokumen_edit;
+    $arsip->kategori = $request->kategori_laporan_edit;
     if ($request->hasFile('file_edit')) {
       $oldPath = storage_path("app/public/uploads/arsip/{$arsip->date_upload}/{$arsip->file}");
       if (file_exists($oldPath)) {
@@ -134,7 +141,7 @@ class ControllerArsip extends Controller
       }
       $file = $request->file('file_edit');
       $filename = time() . '_' . $file->getClientOriginalName();
-      $tanggal = now()->format('Y-m-d');
+      $tanggal = now()->format('Y-m-d H:i:s');
 
       $file->storeAs("public/uploads/arsip/{$tanggal}", $filename);
       $arsip->file = $filename;

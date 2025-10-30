@@ -12,7 +12,6 @@ class Analytics extends Controller
   public function index()
   {
     $arsips = ArsipModels::with('user')->get();
-
     $roleCounts = [];
 
     foreach ($arsips as $arsip) {

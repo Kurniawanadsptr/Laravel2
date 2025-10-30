@@ -17,45 +17,50 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Data Arsip</h5>
-            <input type="text" id="search" class="form-control w-20" placeholder="Cari dokumen...">
+            <input type="text" id="search" class="form-control w-20" placeholder="Search...">
         </div>
 
         <div class="card-body">
-            <div class="table-responsive text-nowrap">
-                <table id="users-table" class="table table-bordered">
+            <div class="table-wrapper">
+                <table class="table table-bordered" id="users-table">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>File</th>
-                            <th>Nama Dokumen</th>
-                            <th>No. Surat</th>
-                            <th>Perihal</th>
-                            <th>File Eksis</th>
-                            <th>Ukuran File</th>
-                            <th>Tgl Upload</th>
-                            <th>Users</th>
+                            <th class="extra">No</th>
+                            <th class="extra">File</th>
+                            <th class="extra">Judul</th>
+                            <th class="extra">Nama Dokumen</th>
+                            <th class="extra">No. Surat</th>
+                            <th class="extra-column">Jenis Dokumen</th>
+                            <th class="extra-column">Kategori</th>
+                            <th class="extra-column">File Eksis</th>
+                            <th class="extra-column">Ukuran File</th>
+                            <th class="extra-column">Tgl Upload</th>
+                            <th class="extra-column">Users</th>
                             @if (Auth::user()->role !== 'General Admin')
-                                <th>Actions</th>
+                                <th class="extra-column">Actions</th>
                             @endif
                         </tr>
                     </thead>
                     <tbody id="arsip-body">
                         @foreach ($rowArsip as $arsip)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td><a href="{{ url("arsip/file/$arsip->date_upload/$arsip->file") }}"
+                                <td class="extra">{{ $loop->iteration }}</td>
+                                <td class="extra"><a href="{{ url("arsip/file/$arsip->date_upload/$arsip->file") }}"
                                         target="_blank">{{ $arsip->file }}</a></td>
-                                <td>{{ $arsip->name_file }}</td>
-                                <td>{{ $arsip->no_surat }}</td>
-                                <td>{{ $arsip->perihal }}</td>
-                                <td><span
+                                <td class="extra">{{ $arsip->judul }}</td>
+                                <td class="extra">{{ $arsip->name_file }}</td>
+                                <td class="extra">{{ $arsip->no_surat }}</td>
+                                <td class="extra-column">{{ $arsip->jenis_dokumen }}</td>
+                                <td class="extra-column">{{ $arsip->kategori }}</td>
+                                <td class="extra-column">
+                                    <span
                                         style="color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}">{{ $arsip->file_eksis }}</span>
                                 </td>
-                                <td>{{ $arsip->size_file }}</td>
-                                <td>{{ $arsip->date_upload }}</td>
-                                <td>{{ $arsip->user->role }}</td>
+                                <td class="extra-column">{{ $arsip->size_file }}</td>
+                                <td class="extra-column">{{ $arsip->date_upload }}</td>
+                                <td class="extra-column">{{ $arsip->user->role }}</td>
                                 @if (Auth::user()->role !== 'General Admin')
-                                    <td>
+                                    <td class="extra-column">
                                         <button class="btn btn-info rounded-2 w-25" id="editArsip"
                                             data-id="{{ $arsip->id_arsip }}">Edit</button>
                                         <form action="{{ route('hapus-arsip', $arsip->id_arsip) }}" method="POST"
@@ -71,25 +76,28 @@
                             </tr>
                         @endforeach
                     </tbody>
-                     <tfoot>
+                    <tfoot>
                         <tr>
-                           <th>No</th>
-                            <th>File</th>
-                            <th>Nama Dokumen</th>
-                            <th>No. Surat</th>
-                            <th>Perihal</th>
-                            <th>File Eksis</th>
-                            <th>Ukuran File</th>
-                            <th>Tgl Upload</th>
-                            <th>Users</th>
+                            <th class="extra">No</th>
+                            <th class="extra">File</th>
+                            <th class="extra">Judul</th>
+                            <th class="extra">Nama Dokumen</th>
+                            <th class="extra">No. Surat</th>
+                            <th class="extra-column">Jenis Dokumen</th>
+                            <th class="extra-column">Kategori</th>
+                            <th class="extra-column">File Eksis</th>
+                            <th class="extra-column">Ukuran File</th>
+                            <th class="extra-column">Tgl Upload</th>
+                            <th class="extra-column">Users</th>
                             @if (Auth::user()->role !== 'General Admin')
-                                <th>Actions</th>
+                                <th class="extra-column">Actions</th>
                             @endif
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
+
     </div>
 
     <div class="modal fade" id="modalTambahData" tabindex="-1" aria-labelledby="modalTambahDataLabel" aria-hidden="true">
@@ -111,14 +119,33 @@
                             <input type="text" class="form-control" id="no_surat" name="no_surat" required>
                         </div>
                         <div class="mb-3">
-                            <label for="nama_dokumen" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihal" name="perihal" required>
+                            <label for="nama_dokumen" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="judul" name="judul" required>
                         </div>
                         <div class="mb-3">
                             <label for="nama_dokumen" class="form-label">File Eksis</label>
                             <select class="form-control" name="file_eksis" id="file_eksis">
                                 <option value="Ada">Ada</option>
                                 <option value="Tidak Ada">Tidak Ada</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_dokumen" class="form-label">Jenis Dokumen</label>
+                            <select class="form-control" name="jenis_dokumen" id="jenis_dokumen">
+                                <option value="Lapintel">Lapintel</option>
+                                <option value="Lapsus">Lapsus</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_dokumen" class="form-label">Kategori Laporan</label>
+                            <select class="form-control" name="kategori_laporan" id="kategori_laporan">
+                                <option value="Ideologi">Ideologi</option>
+                                <option value="Politik">Politik</option>
+                                <option value="Ekonomi">Ekonomi</option>
+                                <option value="Sosial">Sosial</option>
+                                <option value="Budaya">Budaya</option>
+                                <option value="Pertahanan">Pertahanan</option>
+                                <option value="Keamanan">Keamanan</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -161,14 +188,33 @@
                             <input type="text" class="form-control" id="no_surat_edit" name="no_surat_edit">
                         </div>
                         <div class="mb-3">
-                            <label for="perihal" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihal_edit" name="perihal_edit">
+                            <label for="judul" class="form-label">Judul</label>
+                            <input type="text" class="form-control" id="judul_edit" name="judul_edit">
                         </div>
                         <div class="mb-3">
                             <label for="file eksis" class="form-label">File Eksis</label>
                             <select class="form-control" name="file_eksis_edit" id="file_eksis_edit">
                                 <option value="Ada">Ada</option>
                                 <option value="Tidak Ada">Tidak Ada</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_dokumen" class="form-label">Jenis Dokumen</label>
+                            <select class="form-control" name="jenis_dokumen_edit" id="jenis_dokumen_edit">
+                                <option value="Lapintel">Lapintel</option>
+                                <option value="Lapsus">Lapsus</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_dokumen" class="form-label">Kategori Laporan</label>
+                            <select class="form-control" name="kategori_laporan_edit" id="kategori_laporan_edit">
+                                <option value="Ideologi">Ideologi</option>
+                                <option value="Politik">Politik</option>
+                                <option value="Ekonomi">Ekonomi</option>
+                                <option value="Sosial">Sosial</option>
+                                <option value="Budaya">Budaya</option>
+                                <option value="Pertahanan">Pertahanan</option>
+                                <option value="Keamanan">Keamanan</option>
                             </select>
                         </div>
                         <div class="mb-3">

@@ -4,7 +4,10 @@ $(document).on('click', '#editArsip', function () {
     $('#id').val(data.id_arsip);
     $('#nama_dokumen_edit').val(data.name_file);
     $('#no_surat_edit').val(data.no_surat);
-    $('#perihal_edit').val(data.perihal);
+    $('#judul_edit').val(data.judul);
+    $('#jenis_dokumen_edit').val(data.jenis_dokumen);
+    $('#kategori_laporan_edit').val(data.kategori);
+    $('#file_eksis_edit').val(data.file_eksis);
     $('#spanFile').attr('href', '/arsip/file/' + data.date_upload + '/' + data.file);
     $('#modalEditData').modal('show');
   });

@@ -46,7 +46,9 @@
                 <th>No</th>
                 <th>Nama File</th>
                 <th>No Surat</th>
-                <th>Perihal</th>
+                <th>Judul</th>
+                <th>Kategori</th>
+                <th>Jenis</th>
                 <th>Status</th>
                 <th>Ukuran</th>
                 <th>Tanggal Upload</th>
@@ -59,7 +61,9 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $arsip->name_file }}</td>
                     <td>{{ $arsip->no_surat }}</td>
-                    <td>{{ $arsip->perihal }}</td>
+                    <td>{{ $arsip->judul }}</td>
+                    <td>{{ $arsip->kategori }}</td>
+                    <td>{{ $arsip->jenis_laporan }}</td>
                     <td><span
                             style="color: {{ $arsip->file_eksis == 'Ada' ? 'green' : 'red' }}">{{ $arsip->file_eksis }}</span>
                     </td>

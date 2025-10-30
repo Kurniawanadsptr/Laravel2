@@ -122,3 +122,27 @@
   background-color: #0151b9;
   color: white;
 }
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.extra {
+    min-width: 240px;
+    white-space: nowrap;
+}
+.extra-column {
+    min-width: 150px;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 1465px) {
+.extra {
+    min-width: 180px;
+    white-space: nowrap;
+}
+.extra-column {
+    min-width: 150px;
+    white-space: nowrap;
+}
+}
